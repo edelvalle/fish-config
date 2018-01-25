@@ -50,7 +50,7 @@ function fish_prompt --description 'Write out the prompt'
             set suffix '>'
     end
 
-    echo -n -s (set_color -i $color_cwd) "["(prompt_pwd)"]" (set_color normal) (__fish_git_prompt) (set_color -o brblue) " $suffix " (set_color normal)
+    echo -n -s (set_color $color_cwd) "["(prompt_pwd)"]" (set_color normal) (__fish_git_prompt) (set_color -o brblue) " $suffix " (set_color normal)
 end
 
 function fish_title
