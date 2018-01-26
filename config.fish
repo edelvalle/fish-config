@@ -1,3 +1,6 @@
+# Aliases
+alias m "python manage.py"
+
 # Greetings commander
 set fish_greeting ""
 
