@@ -2,6 +2,11 @@
 alias m "python manage.py"
 alias you-mp3 "youtube-dl -x --audio-format mp3 --audio-quality 0"
 
+function forecast
+  curl -4 "http://wttr.in/$argv"
+end
+
+
 # Greetings commander
 set fish_greeting ""
 
