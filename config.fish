@@ -41,16 +41,26 @@ set __fish_git_prompt_char_upstream_behind '-'
 set __fish_preexec_command ""
 set __fish_preexec_timestamp (date +'%s')
 set __fish_preexec_status 0
+set __fish_preexec_winid ""
 
 
 function preexec --on-event fish_preexec
   set __fish_preexec_command $argv
   set __fish_preexec_timestamp (date +'%s')
+  set __fish_preexec_winid (get_active_window_id)
 end
 
 
 function postexec --on-event fish_postexec
   set __fish_preexec_status $status
+end
+
+function get_active_window_id
+  if [ -n $DISPLAY ]
+    echo (xprop -root _NET_ACTIVE_WINDOW | cut -d' ' -f5)
+  else
+    echo nowindowid
+  end
 end
 
 function sec_to_human
@@ -88,18 +98,19 @@ end
 function fish_prompt --description 'Write out the prompt'
     set -l color_cwd
     set -l suffix
-    set -l sec_num 5
+    set -l sec_num 1
+    set -l curret_winid (get_active_window_id)
 
-    if test $CMD_DURATION -ge (math "1000 * $sec_num")
-       set -l command_time (math (date +'%s') - $__fish_preexec_timestamp)
-       set command_time (sec_to_human $command_time)
+    if test $CMD_DURATION -ge (math "1000 * $sec_num") -a $curret_winid != $__fish_preexec_winid
+        set -l command_time (math (date +'%s') - $__fish_preexec_timestamp)
+        set command_time (sec_to_human $command_time)
 
-       set -l icon "terminal"
-       if test $__fish_preexec_status -ne 0
-         set icon "dialog-error"
-       end
-       mpv /usr/share/sounds/freedesktop/stereo/complete.oga --really-quiet & \
-         notify-send -i $icon "Long command completed" "$__fish_preexec_command\nTook $command_time"
+        set -l icon "terminal"
+        if test $__fish_preexec_status -ne 0
+          set icon "dialog-error"
+        end
+        mpv /usr/share/sounds/freedesktop/stereo/complete.oga --really-quiet & \
+          notify-send -i $icon "Long command completed" "$__fish_preexec_command\nTook $command_time"
     end
 
     if set -q VIRTUAL_ENV
