@@ -98,7 +98,7 @@ end
 function fish_prompt --description 'Write out the prompt'
     set -l color_cwd
     set -l suffix
-    set -l sec_num 1
+    set -l sec_num 10
     set -l curret_winid (get_active_window_id)
 
     if test $CMD_DURATION -ge (math "1000 * $sec_num") -a $curret_winid != $__fish_preexec_winid
