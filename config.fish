@@ -6,6 +6,10 @@ function forecast
   curl -4 "http://wttr.in/$argv"
 end
 
+function add-key
+  gpg --recv-keys $argv
+end
+
 
 # Greetings commander
 set fish_greeting ""
