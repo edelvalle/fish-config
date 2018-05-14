@@ -1,6 +1,8 @@
 # Aliases
 alias m "python manage.py"
 alias you-mp3 "youtube-dl -x --audio-format mp3 --audio-quality 0"
+alias docker-reset="docker rm -v (docker ps -a -q)"
+alias docker-clean="docker rmi (docker images -f 'dangling=true' -q)"
 
 function forecast
   curl -4 "http://wttr.in/$argv"
